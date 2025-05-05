@@ -3,6 +3,16 @@ import requests
 
 def emotion_detector(text_to_analyze):
     """Emotion detection function"""
+    if not text_to_analyze.strip() or text_to_analyze.isnumeric(): #Check if text is empty
+        return {
+            "anger": None,
+            "disgust": None,
+            "fear": None,
+            "joy": None,
+            "sadness": None,
+            "dominant_emotion": None
+        }, 400
+
     url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
     headers = {
         "Content-Type": "application/json",
@@ -25,6 +35,6 @@ def emotion_detector(text_to_analyze):
     dominant_emotion = max(emotion_scores, key=emotion_scores.get)
     emotion_scores['dominant_emotion'] = dominant_emotion
     
-    return emotion_scores
+    return emotion_scores, 200
 
     

@@ -10,7 +10,10 @@ def index():
 @app.route("/emotionDetector")
 def detect_emotion():
     text = request.args.get("textToAnalyze") 
-    result = emotion_detector(text)
+    result, status_code = emotion_detector(text)
+
+    if status_code == 400:
+        return  "Invalid text! Please try again!"
 
     # Build the response string
     response = (
@@ -26,3 +29,4 @@ def detect_emotion():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
